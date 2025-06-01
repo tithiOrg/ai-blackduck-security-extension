@@ -23,9 +23,9 @@ describe("Platform", () => {
                 value: "linux"
             })
             bridgeDefaultPath = path.join(process.env["HOME"] as string,
-                constants.BRIDGE_CLI_DEFAULT_PATH_UNIX
-                    .replace("-$version", "")
-                    .replace("$platform", constants.LINUX_PLATFORM));
+                                           constants.BRIDGE_CLI_DEFAULT_PATH_UNIX
+                                              .replace("-$version", "")
+                                              .replace("$platform", constants.LINUX_PLATFORM));
             bridgeUrl = "https://repo.blackduck.com/bds-integrations-release/com/blackduck/integration/bridge/binaries/bridge-cli-bundle/0.1.244/bridge-cli-bundle-0.1.244-linux64.zip"
         })
 
@@ -33,7 +33,7 @@ describe("Platform", () => {
             Object.defineProperty(process, 'platform', {
                 value: currentOsName
             })
-        })
+        });
 
         it("getVersionUrl", async () => {
             const result = bridge.getVersionUrl("0.1.244");
@@ -44,7 +44,7 @@ describe("Platform", () => {
             const result = bridge.getDefaultBridgeCliPath();
             assert.equal(result, bridgeDefaultPath);
         });
-    })
+    });
 
     context("platform - mac", () => {
 
@@ -71,21 +71,22 @@ describe("Platform", () => {
                         idle: 8868390,
                         irq: 0
                     }
-                }]
+                }
+            ];
             const cpuInfo = sandbox.stub(os, "cpus");
             cpuInfo.returns(fakeCpus);
             bridgeDefaultPath = path.join(process.env["HOME"] as string,
-                constants.BRIDGE_CLI_DEFAULT_PATH_UNIX
-                    .replace("-$version", "")
-                    .replace("$platform", constants.MAC_INTEL_PLATFORM));
+                                           constants.BRIDGE_CLI_DEFAULT_PATH_UNIX
+                                              .replace("-$version", "")
+                                              .replace("$platform", constants.MAC_INTEL_PLATFORM));
             bridgeUrl = "https://repo.blackduck.com/bds-integrations-release/com/blackduck/integration/bridge/binaries/bridge-cli-bundle/0.1.244/bridge-cli-bundle-0.1.244-macosx.zip"
-        })
+        });
 
         after(() => {
             Object.defineProperty(process, 'platform', {
                 value: currentOsName
             })
-        })
+        });
 
         it("getVersionUrl", async () => {
             const result = bridge.getVersionUrl("0.1.244");
@@ -96,7 +97,7 @@ describe("Platform", () => {
             const result = bridge.getDefaultBridgeCliPath();
             assert.equal(result, bridgeDefaultPath);
         });
-    })
+    });
 
     context("platform - windows", () => {
 
@@ -106,25 +107,26 @@ describe("Platform", () => {
         let bridge: BridgeCli;
 
         before(() => {
-            process.env["USERPROFILE"] = "C:/Users"
+            process.env["USERPROFILE"] = "C:/Users";
             bridge = new BridgeCli();
             Object.defineProperty(process, 'platform', {
                 value: "win32"
             })
 
+            // Updating the new default path value
             bridgeDefaultPath = path.join(
                 process.env["USERPROFILE"] as string,
-                constants.BRIDGE_CLI_DEFAULT_PATH_WINDOWS
-                    .replace("-$version", "")
-                    .replace("$platform", constants.WINDOWS_PLATFORM))
+                "/users/tem" // Updated value for BRIDGE_CLI_DEFAULT_PATH_WINDOWS
+                   .replace("-$version", "")
+                   .replace("$platform", constants.WINDOWS_PLATFORM));
             bridgeUrl = "https://repo.blackduck.com/bds-integrations-release/com/blackduck/integration/bridge/binaries/bridge-cli-bundle/0.1.244/bridge-cli-bundle-0.1.244-win64.zip"
-        })
+        });
 
         after(() => {
             Object.defineProperty(process, 'platform', {
                 value: currentOsName
             })
-        })
+        });
 
         it("getVersionUrl - windows", () => {
             const result = bridge.getVersionUrl("0.1.244");
@@ -135,7 +137,6 @@ describe("Platform", () => {
             const result = bridge.getDefaultBridgeCliPath();
             assert.equal(result, bridgeDefaultPath);
         });
-    })
+    });
 
-})
-
+});
